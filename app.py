@@ -37,7 +37,7 @@ load_dotenv()
 #print(url)
 
 #use the url from heroku
-pg_url = os.environ.get["URL"]
+pg_url = os.environ.get("URL")
 
 engine = create_engine(f'{pg_url}')
 
