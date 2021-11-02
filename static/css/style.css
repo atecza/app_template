@@ -1,0 +1,25 @@
+.main_background{
+    background-color: whitesmoke;
+}
+
+.chart-div{
+    height: 400px;
+    
+}
+
+#chart1{
+    background-color: gray;
+    
+}
+
+#chart2{
+    background-color: rgb(18, 124, 124);
+    
+}
+
+
+#map-col{
+    height: 500px;
+    background-color: rgb(32, 32, 138);
+   
+}

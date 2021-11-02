@@ -1,0 +1,8 @@
+*.vscode
+*.csv
+*.ipynb_checkpoints
+config.py
+__pycache__
+config.js
+*.json
+*.env
