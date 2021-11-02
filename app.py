@@ -14,7 +14,10 @@ import psycopg2
 
 #os allows you to call in environment variables
 # we will set the remote environment variables in heroku 
+from dotenv import load_dotenv
 import os 
+
+load_dotenv()
 
 
 #################################################
@@ -23,26 +26,26 @@ import os
 
 #make sure you have your own .env on your computer
 
-#pg_user = os.getenv("DB_USER")
-#pg_pwd = os.getenv("DB_PASSWORD")
-#pg_port = "5432"
-#rds = os.getenv("DB_ADDRESS")
+pg_user = os.getenv("DB_USER")
+pg_pwd = os.getenv("DB_PASSWORD")
+pg_port = "5432"
+rds = os.getenv("DB_ADDRESS")
+database = os.getenv("DB")
 
-#database = '<name of your database>'
-
-#url = f"postgresql://{pg_user}:{pg_pwd}@{rds}:{pg_port}/{database}"
+url = f"postgresql://{pg_user}:{pg_pwd}@{rds}:{pg_port}/{database}"
 
 
-#engine = create_engine(f'{url}')
+engine = create_engine(f'{url}')
+
 
 # reflect an existing database into a new model
-#Base = automap_base()
+Base = automap_base()
 
 # reflect the tables
-#Base.prepare(engine, reflect=True)
+Base.prepare(engine, reflect=True)
 
 # Save reference to the table
-#tablename = Base.classes.tablename
+EnvironmentData = Base.classes.envdata
 
 # create instance of Flask app
 app = Flask(__name__)
@@ -71,7 +74,7 @@ def results():
        
      
     # line up values to match model values and predict
-    outcome = model.predict([[variable_1,variable_2]])
+    #outcome = model.predict([[variable_1,variable_2]])
    
    #you may need to do some things to the outcome before retuning it
     
@@ -86,25 +89,40 @@ def data():
     
     
     # Create our session (link) from Python to the DB
-    #session = Session(engine)
+    session = Session(engine)
     
     #Query Database
-    #your_query = session.query()
     
-    lat_long = [(-12.35,24),()]
 
-    
-    #Convert Query to json object
-    #Consider how you want your data to be structured to easily pass into visuals
-    #final sturcture should be in a list or dictionary
-    
-    #example: in this case the list of values would be derived from your query
-    my_data = {'map_array':lat_long}
+    EData = session.query(EnvironmentData).all()
+    myData = []
+
+    for x in EData:
+
+        fullEdata = {}
+
+        fullEdata = {
+            "Country": x.Country,
+            "HDI":x.HDI,
+            "Footprint_Crop":x.Footprint_Crop,
+            "Footprint_Graze":x.Footprint_Graze,
+            "Footprint_Forest":x.Footprint_Forest,
+            "Footprint_Carbon":x.Footprint_Carbon,
+            "Footprint_Fish":x.Footprint_Fish,
+            "Footprint_Total":x.Footprint_Total,
+            "Land_Urban":x.Land_Urban,
+            "Emission_CO2":x.Emissions_CO2,
+            "BioCap":x.Biocapacity_Total,
+            "BioCap_RD":x.BioCap_RD,
+            "Data_Quality":x.Data_Quality
+        }
+
+        myData.append(fullEdata)
         
-    #session.close()
+    session.close()
     
     #Return the JSON representation of your dictionary
-    return (jsonify(my_data))
+    return (jsonify(myData))
 
 if __name__ == '__main__':
     app.run(debug=True)
