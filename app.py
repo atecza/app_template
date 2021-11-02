@@ -34,7 +34,8 @@ database = os.getenv("DB")
 
 url = f"postgresql://{pg_user}:{pg_pwd}@{rds}:{pg_port}/{database}"
 
-pg_url = os.getenv("DATABASE_URL")
+#use the url from heroku
+pg_url = os.environ.get["DATABASE_URL"]
 
 engine = create_engine(f'{pg_url}')
 
