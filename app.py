@@ -34,8 +34,9 @@ database = os.getenv("DB")
 
 url = f"postgresql://{pg_user}:{pg_pwd}@{rds}:{pg_port}/{database}"
 
+pg_url = os.getenv("DATABASE_URL")
 
-engine = create_engine(f'{url}')
+engine = create_engine(f'{pg_url}')
 
 
 # reflect an existing database into a new model
