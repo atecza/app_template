@@ -25,14 +25,6 @@ load_dotenv()
 #################################################
 
 #make sure you have your own .env on your computer
-
-#pg_user = os.getenv("DB_USER")
-#pg_pwd = os.getenv("DB_PASSWORD")
-#pg_port = "5432"
-#rds = os.getenv("DB_ADDRESS")
-#database = os.getenv("DB")
-
-#url = f"postgresql://{pg_user}:{pg_pwd}@{rds}:{pg_port}/{database}"
 #url = os.getenv('DATABASE_URL')
 #print(url)
 
