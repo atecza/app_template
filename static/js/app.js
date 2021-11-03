@@ -1,6 +1,7 @@
     
 // MAKE FUNCTIONS TO CREATE THE CHARTS
 
+
 function barchart(data){
     
     //your code here

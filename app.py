@@ -1,6 +1,6 @@
 #IMPORT NECESSARY LIBRARIES
 import joblib  #for importing your machine learning model
-from flask import Flask, render_template,request, jsonify, make_response, url_for, redirect
+from flask import Flask, render_template, request, jsonify, make_response, url_for, redirect, session
 import pandas as pd 
 
 
@@ -25,13 +25,16 @@ load_dotenv()
 #################################################
 
 #make sure you have your own .env on your computer
-#url = os.getenv('DATABASE_URL')
+url = os.getenv('DATABASE_URL')
+SECRET_KEY = os.getenv('SECRET_KEY')
+
 #print(url)
 
 #use the url from heroku
-pg_url = os.environ.get("URL")
+#url = os.environ.get("URL")
+#url = os.environ.get("SECRET_KEY")
 
-engine = create_engine(f'{pg_url}')
+engine = create_engine(f'{url}')
 
 
 # reflect an existing database into a new model
@@ -46,37 +49,55 @@ EnvironmentData = Base.classes.envdata
 # create instance of Flask app
 app = Flask(__name__)
 
+#set secret key
+app.secret_key = SECRET_KEY
+
 #model = joblib.load("<filepath to saved model>")
 
 #check that you have your model 
 #print(model)
 
+
 # create route that renders index.html template
-@app.route("/", methods=["GET"])
+@app.route("/", methods=["GET","POST"])
 def home():
     
-    return render_template("index.html")
+    
+    if session.get('outcome'):
+        
+        outcome = session['outcome']
+        
+        session.pop('outcome')
+        
+        return render_template("index.html", outcome=outcome)
+    
+    else:
+        outcome = 'What Will Your Value Be?' 
+         
+        return render_template("index.html", outcome=outcome)
 
 
-# route to make prediction off of model
-@app.route("/predict", methods=["POST"])
-def results():      
-      
-    # if you are plugging user values into a model
-    # get the variables from your html form. these always come in as string
-    # you will need to have form inputs in your html with a name attribute
-    variable_1= int(request.form.get("variable_1"))  
-    variable_2= request.form.get("variable_2")   
-       
-     
-    # line up values to match model values and predict
-    #outcome = model.predict([[variable_1,variable_2]])
-   
-   #you may need to do some things to the outcome before retuning it
+@app.route("/runmodel", methods=["POST"])
+def model():
     
-    #need to double check that passing variable works with redirect
-    return redirect(url_for('app.home', outcome=outcome))
+    if request.method == 'POST': 
+        
+        input_1 = request.form.get("dropdown")
+        
+        if input_1.isnumeric():
+            
+            variable_1 = int(input_1)
+
+            outcome = variable_1*2
+            
+        else:
+            outcome = None
+        
+        session['outcome'] = outcome
+        
+        return redirect(url_for('home'))
     
+    return ('this is not the page you are looking for')
 
 #make an endpoint for data you are using in charts. You will use JS to call this data in
 #using d3.json("/api/data")
