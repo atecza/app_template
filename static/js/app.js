@@ -18,10 +18,6 @@ function barchart(data){
     ];
 
     var layout = {
-        margin: {
-            t: 50,
-            b: 50,
-        },
         xaxis: {automargin: true},
         yaxis: {automargin: true}
     }
