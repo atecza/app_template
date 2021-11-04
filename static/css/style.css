@@ -2,17 +2,37 @@
     background-color: whitesmoke;
 }
 
+/* Machine Learning Row */
+
+#machine-learning-row{
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#machine-learning-output{
+    background-color: rgb(218, 169, 37);
+    height: 150px;
+    width: 200px;
+    font-size: x-large;
+    margin-left: 75px;
+}
+
+#machine-learning-label{
+    margin-left: 50px;
+}
+
 .chart-div{
-    height: 400px;
     
 }
 
 #chart1{
     background-color: gray;
+    margin-bottom: 20px;
+    margin-top: 20px;
     
 }
 
-#chart2{
+#chart2-div{
     background-color: rgb(18, 124, 124);
     
 }

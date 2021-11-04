@@ -16,61 +16,75 @@
 <body>
     <div id= "title-container" class="container-fluid main_background">
         <div class="row">
-            <div class="col-sm-12 d-flex justify-content-center align-items-center">
+            <div class="col-sm-12 pt-5 d-flex justify-content-center align-items-center">
                 <h2>PROJECT TITLE</h2>
             </div>
         </div>
     </div>
     <div id= "question-container" class="container-fluid main_background">
-        <div class="row">
-            <div id="form-col" class="col-sm-12 d-flex justify-content-center align-items-center">
-                <div class="row">
-                    <div class='col-sm-6'>
-                        <form method="post">
-                            <div class="col-auto form-group">
-                                <label for="exampleDataList" class="form-label">Dropdown</label>
-                                <input class="form-control" list="datalistOptions" id="exampleDataList" name='dropdown'>
-                                    <datalist id="datalistOptions">
-                                        <option value="1">
-                                        <option value="2">
-                                        <option value="3">
-                                        <option value="4">
-                                        <option value="5">
-                                    </datalist>
-                                </input>
-                            </div>
-                            <div class="col-auto form-group">
-                                <label for="exampleDataList2" class="form-label">Dropdown</label>
-                                <input class="form-control" list="datalistOptions2" id="exampleDataList" name='dropdown2'>
-                                    <datalist id="datalistOptions2">
-                                        <option value="8">
-                                        <option value="9">
-                                    </datalist>
-                                </input>
-                            </div>
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form> 
+        <div class="row" id='machine-learning-row'>
+            <div id="form-col" class="col-sm-6 d-flex justify-content-center">
+                <form class='row flex-row justify-content-center' method="post">
+                    <div class="col-3 form-group">
+                        <label for="exampleDataList" class="form-label">Household Size</label>
+                        <input class="form-control" list="datalistOptions" id="exampleDataList" name='dropdown'>
+                            <datalist id="datalistOptions">
+                                <option value="1">
+                                <option value="2">
+                                <option value="3">
+                                <option value="4">
+                                <option value="5">
+                            </datalist>
+                        </input>
                     </div>
-                </div>
-                <div class="row">
-                    <div class='col-sm-6'>
+                    <div class="col-3 form-group">
+                        <label for="exampleDataList2" class="form-label">Number of Days Skied</label>
+                        <input class="form-control" list="datalistOptions2" id="exampleDataList2" name='dropdown2'>
+                            <datalist id="datalistOptions2">
+                                <option value="8">
+                                <option value="9">
+                            </datalist>
+                        </input>
+                    </div>
+                    <div class="col-4 form-group">
+                        <label for="exampleDataList3" class="form-label">Ski Resort</label>
+                        <input class="form-control" list="datalistOptions3" id="exampleDataList3" name='dropdown3'>
+                            <datalist id="datalistOptions3">
+                                <option value="Keystone">
+                                <option value="Vail">
+                                <option value="Winter Park">
+                            </datalist>
+                        </input>
+                    </div>
+                    <div class="col-sm-12 d-flex justify-content-end align-items-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form> 
+            </div>
+            <div class='col-sm-4 d-flex align-items-center justify-content-start'>
+                <div class='row'>
+                    <div class = 'col-sm-12 d-flex justify-content-start align-items-center' id='machine-learning-label'>
+                        <h5>Your Satisfaction Score</h5>
+                    </div>
+                    <div class = 'col-sm-10 d-flex border border-dark justify-content-center align-items-center' id='machine-learning-output'>
                         {{outcome}}
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
     </div>
     <div id= "chart-container" class="container-fluid main_background">
-        <div class="row">
-            <div id="chart1" class="chart-div col-sm-6 d-flex justify-content-center align-items-center">
-                <p>CHART 1</p>
+        <div class="row" >
+            <div class="chart-div col-sm-6 d-flex border border-dark justify-content-center align-items-center">
+                <div id="chart1">
                 <!-- chart 1 here -->
+                </div>
             </div>
-            <div id="chart2" class="chart-div col-sm-6 d-flex justify-content-center align-items-center">
-                <p>CHART 1</p>
-                <!-- chart 2 here -->
+            <div id="chart2-div" class="chart-div col-sm-6 d-flex justify-content-center align-items-center">
+                <div id="chart2">
+                    <!-- chart 2 here -->
+                    <p>Chart 2</p>
+                </div>
             </div>
         </div>
     </div>

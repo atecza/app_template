@@ -4,14 +4,33 @@
 
 function barchart(data){
     
-    //your code here
+    //clean data
+    my_x = data.map(x => x.Country)
+    my_y = data.map(y => y.Emission_CO2)
+
+    //using plotly
+    var plot_data = [
+        {
+            x: my_x,
+            y: my_y,
+            type: 'bar'
+        }
+    ];
+
+    var layout = {
+        margin: {
+            t: 50,
+            b: 50,
+        },
+        xaxis: {automargin: true},
+        yaxis: {automargin: true}
+    }
+
+    Plotly.newPlot('chart1', plot_data, layout, { 
+        responsive: true});
 
 }
 
-function scatterplot(data){
-
-    //your code here
-}
 
 
 //PUT ALL GRAPHS TOGETHER AND MAKE API CALL
@@ -19,16 +38,16 @@ function scatterplot(data){
 function getData(){
 
     //grab the data from the endpoint you created in flask
-    //d3.json("/api/data").then((json) => {
+    d3.json("/api/data").then((json) => {
 
         //pass that data into the functions to create the charts
 
-        //barchart(json)
+        barchart(json)
 
         //scatterplot(json)
 
 
-    //})// end d3 call
+    })// end d3 call
 
 }// end function getData
 
