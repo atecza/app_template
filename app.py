@@ -1,6 +1,6 @@
 #IMPORT NECESSARY LIBRARIES
 import joblib  #for importing your machine learning model
-from flask import Flask, render_template, request, jsonify, make_response, url_for, redirect, session
+from flask import Flask, render_template, request, jsonify, make_response
 import pandas as pd 
 
 
@@ -25,14 +25,14 @@ load_dotenv()
 #################################################
 
 #make sure you have your own .env on your computer
+#comment out when you plan to deploy from heroku
+
 url = os.getenv('DATABASE_URL')
-SECRET_KEY = os.getenv('SECRET_KEY')
+print(url)
 
-#print(url)
-
-#use the url from heroku
+#uncomment line below when you want to deploy to heroku
 #url = os.environ.get("URL")
-#url = os.environ.get("SECRET_KEY")
+
 
 engine = create_engine(f'{url}')
 
@@ -49,55 +49,49 @@ EnvironmentData = Base.classes.envdata
 # create instance of Flask app
 app = Flask(__name__)
 
-#set secret key
-app.secret_key = SECRET_KEY
 
+#Line below will load your machine learning model
 #model = joblib.load("<filepath to saved model>")
 
-#check that you have your model 
-#print(model)
 
 
 # create route that renders index.html template
 @app.route("/", methods=["GET","POST"])
 def home():
     
-    
-    if session.get('outcome'):
+    #If you have the user submit a form
+    if request.method == 'POST': 
         
-        outcome = session['outcome']
+        #get the contents of the input field. This is referenced by the name argument
+        #in the input html
+        input_1 = request.form.get("dropdown")
+        input_2 = request.form.get("dropdown2")
         
-        session.pop('outcome')
+        #all forms return a string, if you want your input to convert to numeric check
+        #that the input is numeric and then convert. Skip if you need string inputs for your model
+        if input_1.isnumeric():
+            
+            #convert to integer
+            variable_1 = int(input_1)
+            variable_2 = int(input_2)
+
+            #plug your inputs into the model you loaded. In this case my model just
+            #adds the variables and multiplies. Your model is your machine learning model.
+            outcome = (variable_1+variable_2)*2 #model(input_1,input_2)
+        
+        #This ensures that if a non numeric input is passed, nothing happens
+        else:
+            outcome = 'What Will Your Value Be?' 
         
         return render_template("index.html", outcome=outcome)
     
+    #if you are not recieving form data from a user, for instance when the pager first loads
+    #this is what happens. 
     else:
         outcome = 'What Will Your Value Be?' 
          
         return render_template("index.html", outcome=outcome)
 
-
-@app.route("/runmodel", methods=["POST"])
-def model():
-    
-    if request.method == 'POST': 
-        
-        input_1 = request.form.get("dropdown")
-        
-        if input_1.isnumeric():
-            
-            variable_1 = int(input_1)
-
-            outcome = variable_1*2
-            
-        else:
-            outcome = None
-        
-        session['outcome'] = outcome
-        
-        return redirect(url_for('home'))
-    
-    return ('this is not the page you are looking for')
 
 #make an endpoint for data you are using in charts. You will use JS to call this data in
 #using d3.json("/api/data")
@@ -108,12 +102,13 @@ def data():
     # Create our session (link) from Python to the DB
     session = Session(engine)
     
-    #Query Database
-    
-
+    #Query Database. Check SqlAlchemy documentation for how to query
     EData = session.query(EnvironmentData).all()
     myData = []
 
+    
+    #here I decided I want a list of dictionaries, where each dictionary represents a row of data
+    #from my sql database. This format makes filter and map functions in js easy. 
     for x in EData:
 
         fullEdata = {}
