@@ -27,11 +27,11 @@ load_dotenv()
 #make sure you have your own .env on your computer
 #comment out when you plan to deploy from heroku
 
-#url = os.getenv('DATABASE_URL')
+url = os.getenv('DATABASE_URL')
 
 
 #uncomment line below when you want to deploy to heroku
-url = os.environ.get("URL")
+#url = os.environ.get("URL")
 
 
 engine = create_engine(f'{url}')
@@ -65,6 +65,7 @@ def home():
         #get the contents of the input field. This is referenced by the name argument
         #in the input html
         input_1 = request.form.get("dropdown")
+        print(input_1)
         input_2 = request.form.get("dropdown2")
         
         #all forms return a string, if you want your input to convert to numeric check
