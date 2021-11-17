@@ -59,6 +59,8 @@ app = Flask(__name__)
 @app.route("/", methods=["GET","POST"])
 def home():
     
+    outcome = 'What Will Your Value Be?'
+    
     #If you have the user submit a form
     if request.method == 'POST': 
         
@@ -78,18 +80,7 @@ def home():
 
             #plug your inputs into the model you loaded. In this case my model just
             #adds the variables and multiplies. Your model is your machine learning model.
-            outcome = (variable_1+variable_2)*2 #model(input_1,input_2)
-        
-        #This ensures that if a non numeric input is passed, nothing happens
-        else:
-            outcome = 'What Will Your Value Be?' 
-        
-        return render_template("index.html", outcome=outcome)
-    
-    #if you are not recieving form data from a user, for instance when the pager first loads
-    #this is what happens. 
-    else:
-        outcome = 'What Will Your Value Be?' 
+            outcome = variable_1 * variable_2 #model(input_1,input_2)
          
         return render_template("index.html", outcome=outcome)
 
