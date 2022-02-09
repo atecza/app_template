@@ -1,5 +1,5 @@
 #IMPORT NECESSARY LIBRARIES
-import joblib  #for importing your machine learning model
+#import joblib  #for importing your machine learning model
 from flask import Flask, render_template, request, jsonify, make_response
 import pandas as pd 
 
@@ -34,55 +34,27 @@ url = os.getenv('DATABASE_URL')
 #url = os.environ.get("URL")
 
 
-#engine = create_engine(f'{url}')
+engine = create_engine(f'{url}')
 
 
 # reflect an existing database into a new model
-#Base = automap_base()
+Base = automap_base()
 
 # reflect the tables
-#Base.prepare(engine, reflect=True)
+Base.prepare(engine, reflect=True)
 
-# Save reference to the table
-#Tablename = Base.classes.tablename
+#my table in pgadmin (postgres) is named envdata
+EnvironmentData = Base.classes.envdata
 
 # create instance of Flask app
 app = Flask(__name__)
 
 
-#Line below will load your machine learning model
-#model = joblib.load("<filepath to saved model>")
-
-
-
 # create route that renders index.html template
 @app.route("/", methods=["GET","POST"])
 def home():
-    
-    outcome = 'What Will Your Value Be?'
-    
-    #If you have the user submit a form
-    if request.method == 'POST': 
-        
-        #get the contents of the input field. This is referenced by the name argument
-        #in the input html
-        input_1 = request.form.get("dropdown")
-        print(input_1)
-        input_2 = request.form.get("dropdown2")
-        
-        #all forms return a string, if you want your input to convert to numeric check
-        #that the input is numeric and then convert. Skip if you need string inputs for your model
-        if input_1.isnumeric():
-            
-            #convert to integer
-            variable_1 = int(input_1)
-            variable_2 = int(input_2)
-
-            #plug your inputs into the model you loaded. In this case my model just
-            #adds the variables and multiplies. Your model is your machine learning model.
-            outcome = variable_1 * variable_2 #model(input_1,input_2)
-         
-        return render_template("index.html", outcome=outcome)
+       
+    return render_template("index.html")
 
 
 #make an endpoint for data you are using in charts. You will use JS to call this data in
