@@ -1,8 +1,10 @@
-# Final Project
+# Flask Project
 
 ## Steps
 
-#### 1) Create a new environment
+#### 1) Create a new virtual conda environment, activate that environment
+This is not necessary, but will make deploying to heroku more efficient. When you pip freeze your requierment's file, you
+will only capture the libraries necessary to run your app. 
 
 #### 2) pip install requirements
 Likely Need
